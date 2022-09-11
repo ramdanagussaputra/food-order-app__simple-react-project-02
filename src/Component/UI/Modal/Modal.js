@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import CartContext from '../../../Context/cart-context';
 
@@ -8,9 +8,10 @@ const Modal = (props) => {
     const cartCtx = useContext(CartContext);
 
     return ReactDOM.createPortal(
-        <div onClick={cartCtx.onCloseClick} className={styles.backdrop}>
+        <Fragment>
+            <div onClick={cartCtx.onCloseClick} className={styles.backdrop}></div>
             <div className={styles.modal}>{props.children}</div>
-        </div>,
+        </Fragment>,
         document.getElementById('modal-root')
     );
 };

@@ -96,13 +96,6 @@ export const CartProvider = (props) => {
     };
 
     const onCloseClick = (e) => {
-        if (
-            !(
-                e.target.className === 'Modal_backdrop__z12PK' ||
-                e.target.className === 'Cart_button--alt__62ZPs'
-            )
-        )
-            return;
         cartDispatch({ type: 'CLOSE_CLICK' });
     };
 
