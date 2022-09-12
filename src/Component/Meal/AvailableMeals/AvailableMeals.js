@@ -5,37 +5,9 @@ import styles from './AvailableMeals.module.css';
 import { useEffect, useState } from 'react';
 import useFetch from '../../../hooks/useFetch';
 
-// const DUMMY_MEALS = [
-//     {
-//         id: 'm1',
-//         name: 'Sushi',
-//         description: 'Finest fish and veggies',
-//         price: 22.99,
-//     },
-//     {
-//         id: 'm2',
-//         name: 'Schnitzel',
-//         description: 'A german specialty!',
-//         price: 16.5,
-//     },
-//     {
-//         id: 'm3',
-//         name: 'Barbecue Burger',
-//         description: 'American, raw, meaty',
-//         price: 12.99,
-//     },
-//     {
-//         id: 'm4',
-//         name: 'Green Bowl',
-//         description: 'Healthy...and green...',
-//         price: 18.99,
-//     },
-// ];
-
 const AvailableMeals = () => {
     const [meals, setMeals] = useState([]);
-
-    const { sendRequest } = useFetch();
+    const { sendRequest, isLoading, error } = useFetch();
 
     useEffect(() => {
         const reqConfig = {
@@ -59,10 +31,38 @@ const AvailableMeals = () => {
 
     const mealList = meals.map((meal) => <MealItem key={meal.id} data={meal} />);
 
+    // CONTENT
+    if (error)
+        return (
+            <div className={styles.meals}>
+                <Card>
+                    <p>Failed to fetch</p>
+                </Card>
+            </div>
+        );
+
+    if (isLoading)
+        return (
+            <div className={styles.meals}>
+                <Card>
+                    <p>Fetching data...</p>
+                </Card>
+            </div>
+        );
+
+    if (meals.length > 0)
+        return (
+            <div className={styles.meals}>
+                <Card>
+                    <ul>{mealList}</ul>
+                </Card>
+            </div>
+        );
+
     return (
         <div className={styles.meals}>
             <Card>
-                <ul>{mealList}</ul>
+                <p>No Meal Available</p>
             </Card>
         </div>
     );

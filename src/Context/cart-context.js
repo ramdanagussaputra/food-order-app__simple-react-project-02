@@ -1,12 +1,14 @@
-import React, { useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 
 const CartContext = React.createContext({
     isClick: false,
+    showCheckout: false,
     onCartClick: () => {},
     onCloseClick: () => {},
     items: [],
     addItem: () => {},
     removeItem: () => {},
+    reset: () => {},
     totalPrice: 0,
     totalAmount: 0,
 });
@@ -79,12 +81,23 @@ const cartReducer = (prevState, action) => {
             items: updatedItems,
         };
     }
+
+    if (action.type === 'RESET') {
+        return {
+            isClick: false,
+            showCheckout: false,
+            totalAmount: 0,
+            items: [],
+            totalPrice: 0,
+        };
+    }
 };
 
 export const CartProvider = (props) => {
     // STATE
     const [cartState, cartDispatch] = useReducer(cartReducer, {
         isClick: false,
+        showCheckout: false,
         totalAmount: 0,
         items: [],
         totalPrice: 0,
@@ -95,7 +108,7 @@ export const CartProvider = (props) => {
         cartDispatch({ type: 'CART_CLICK' });
     };
 
-    const onCloseClick = (e) => {
+    const onCloseClick = () => {
         cartDispatch({ type: 'CLOSE_CLICK' });
     };
 
@@ -107,6 +120,10 @@ export const CartProvider = (props) => {
         cartDispatch({ type: 'REMOVE_ITEM', id });
     };
 
+    const reset = useCallback(() => {
+        cartDispatch({ type: 'RESET' });
+    }, []);
+
     // VALUE
     const value = {
         isClick: cartState.isClick,
@@ -114,9 +131,11 @@ export const CartProvider = (props) => {
         onCloseClick,
         addItem,
         removeItem,
+        reset,
         items: cartState.items,
         totalPrice: cartState.totalPrice.toFixed(2),
         totalAmount: cartState.totalAmount,
+        showCheckout: cartState.showCheckout,
     };
 
     return <CartContext.Provider value={value}>{props.children}</CartContext.Provider>;

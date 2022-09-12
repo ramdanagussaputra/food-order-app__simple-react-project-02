@@ -5,9 +5,11 @@ import CartItem from './CartItem/CartItem';
 import Modal from '../UI/Modal/Modal';
 
 import styles from './Cart.module.css';
+import CheckoutContext from '../../Context/checkout-context';
 
 const Cart = () => {
     const cartCtx = useContext(CartContext);
+    const checkCtx = useContext(CheckoutContext);
 
     // HANDLER
     const onAdd = (item) => {
@@ -40,8 +42,11 @@ const Cart = () => {
                 <button onClick={cartCtx.onCloseClick} className={styles['button--alt']}>
                     Close
                 </button>
+
                 {cartCtx.items.length > 0 && (
-                    <button className={styles.button}>Order</button>
+                    <button onClick={checkCtx.clickHandler} className={styles.button}>
+                        Order
+                    </button>
                 )}
             </div>
         </Modal>
