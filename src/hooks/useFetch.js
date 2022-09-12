@@ -5,7 +5,7 @@ const useFetch = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const sendRequest = useCallback(async (reqConfig, dataHandler) => {
+    const sendRequest = useCallback(async (reqConfig, dataHandler = () => {}) => {
         setIsLoading(true);
         try {
             const res = await axios(reqConfig);

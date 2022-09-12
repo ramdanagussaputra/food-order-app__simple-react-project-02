@@ -85,20 +85,17 @@ const Checkout = () => {
         e.preventDefault();
 
         if (!formValid) return;
-        await sendRequest(
-            {
-                method: 'POST',
-                url: 'https://food-order-app-28938-default-rtdb.firebaseio.com/orders.jso',
-                data: {
-                    name: nameValue,
-                    street: streetValue,
-                    postalCode: postalValue,
-                    city: cityValue,
-                    item: cartCtx.items,
-                },
+        await sendRequest({
+            method: 'POST',
+            url: 'https://food-order-app-28938-default-rtdb.firebaseio.com/orders.json',
+            data: {
+                name: nameValue,
+                street: streetValue,
+                postalCode: postalValue,
+                city: cityValue,
+                item: cartCtx.items,
             },
-            (data) => console.log(data)
-        );
+        });
 
         cityReset();
         postalReset();
